@@ -1,81 +1,61 @@
 package me.arturs.eventapi.controller;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import me.arturs.eventapi.entity.Event;
-import me.arturs.eventapi.entity.Event.Status;
-import me.arturs.eventapi.repository.EventRepository;
+import me.arturs.eventapi.service.EventService;
 
 @RestController
 @RequestMapping("/events")
 public class EventController {
 
-    private final EventRepository eventRepository;
+    private final EventService eventService;
 
-    public EventController(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
 
     @GetMapping
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public ResponseEntity<List<Event>> getAllEvents() {
+        List<Event> events = eventService.getAllEvents();
+        return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        return eventRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return eventService.getEventById(id)
+                .map(event -> new ResponseEntity<>(event, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/createDummy")
-    public Event createDummyEvent() {
-        Event event = new Event();
-        event.setTitle("Dummy Event" + LocalDateTime.now());
-        event.setStartDate(LocalDateTime.now());
-        event.setEndDate(LocalDateTime.now().plusHours(2));
-        event.setPrice(new BigDecimal("10.00"));
-        event.setStatus(Status.STARTED);
-        return eventRepository.save(event);
+    public ResponseEntity<Event> createDummyEvent() {
+        Event event = eventService.createDummyEvent();
+        return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
 
     @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return eventRepository.save(event);
+    public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {
+        Event created = eventService.createEvent(event);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
-        return eventRepository.findById(id)
-                .map(event -> {
-                    event.setTitle(updatedEvent.getTitle());
-                    event.setStartDate(updatedEvent.getStartDate());
-                    event.setEndDate(updatedEvent.getEndDate());
-                    event.setPrice(updatedEvent.getPrice());
-                    event.setStatus(updatedEvent.getStatus());
-                    return ResponseEntity.ok(eventRepository.save(event));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestBody Event updatedEvent) {
+        return eventService.updateEvent(id, updatedEvent)
+                .map(event -> new ResponseEntity<>(event, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        if (!eventRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        eventRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        boolean deleted = eventService.deleteEvent(id);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                       : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

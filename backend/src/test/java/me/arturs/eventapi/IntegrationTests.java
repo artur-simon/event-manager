@@ -94,7 +94,7 @@ class IntegrationTests {
         mockMvc.perform(post("/events")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(eventJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("New Event"))
                 .andExpect(jsonPath("$.status").value("STARTED"));
     }
