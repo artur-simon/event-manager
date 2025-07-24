@@ -1,0 +1,176 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1753312779230
+  modified: 1753312779230
+  description: ""
+collection:
+  - url: localhost:8080/events/createDummy
+    name: Create dummy
+    meta:
+      id: req_000b5409866c4156bb0f78a7d5955b1a
+      created: 1753312818488
+      modified: 1753372723306
+      isPrivate: false
+      description: ""
+      sortKey: -1753312818489
+    method: POST
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/events
+    name: Get all
+    meta:
+      id: req_06df54f2134646208ecc94afc6a1b69b
+      created: 1753323640300
+      modified: 1753372580527
+      isPrivate: false
+      description: ""
+      sortKey: -1753323640300
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/events/:id
+    name: Get event
+    meta:
+      id: req_30af3611c7ba4041af443c16197d1c3b
+      created: 1753372590034
+      modified: 1753372656056
+      isPrivate: false
+      description: ""
+      sortKey: -1753318229394.5
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: id
+        value: "1"
+  - url: localhost:8080/events
+    name: Create event
+    meta:
+      id: req_bc5afe7614854e618bfbc42dbcc664f4
+      created: 1753372801051
+      modified: 1753372823295
+      isPrivate: false
+      description: ""
+      sortKey: -1753312818439
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Test Event",
+          "startDate": "2025-07-24T10:00:00",
+          "endDate": "2025-07-24T12:00:00",
+          "price": 25.00,
+          "status": "STARTED"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: localhost:8080/events/:id
+    name: Update event
+    meta:
+      id: req_563ab728402a454bb9187fcb1423826f
+      created: 1753372925183
+      modified: 1753373064702
+      isPrivate: false
+      description: ""
+      sortKey: -1753315523941.75
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "status": "STARTED"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: id
+        value: "1"
+  - url: localhost:8080/events/:id
+    name: Delete event
+    meta:
+      id: req_6611029927964af5b8095fee7357eca3
+      created: 1753373281170
+      modified: 1753373284818
+      isPrivate: false
+      description: ""
+      sortKey: -1753316876668.125
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: id
+        value: "1"
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1753312789198
+    modified: 1753312789198
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1753312789117
+    modified: 1753312789117
+    isPrivate: false
