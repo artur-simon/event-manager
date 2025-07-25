@@ -17,6 +17,24 @@
 
 ---
 
+### Hibernate DDL Auto Configuration
+
+* To generate tables on first application run (without recreating them on subsequent runs), configure `spring.jpa.hibernate.ddl-auto` in `application.properties` as follows:
+
+  **Initial run:**
+
+  ```
+  spring.jpa.hibernate.ddl-auto=create
+  ```
+
+  **After:**
+
+  ```
+  spring.jpa.hibernate.ddl-auto=none  (or validate)
+  ```
+
+Though this is not recommended to use on production databases, instead we could migrate the behaviour to tools like Flyway or Liquibase.
+
 ### Running with Docker (Recommended)
 
 1. **Build and Start All Services**
