@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import me.arturs.eventapi.dto.EventUpdateDTO;
 import me.arturs.eventapi.entity.Event;
 import me.arturs.eventapi.entity.Event.Status;
 import me.arturs.eventapi.repository.EventRepository;
@@ -45,19 +46,19 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Optional<Event> updateEvent(Long id, Event updatedEvent) {
-        return eventRepository.findById(id)
-                .map(existingEvent -> {
-                    if (updatedEvent.getEndDate().isBefore(updatedEvent.getStartDate())) {
-                        throw new IllegalArgumentException("endDate cannot be before startDate");
-                    }
-                    existingEvent.setTitle(updatedEvent.getTitle());
-                    existingEvent.setStartDate(updatedEvent.getStartDate());
-                    existingEvent.setEndDate(updatedEvent.getEndDate());
-                    existingEvent.setPrice(updatedEvent.getPrice());
-                    existingEvent.setStatus(updatedEvent.getStatus());
-                    return eventRepository.save(existingEvent);
-                });
+    public Optional<Event> updateEvent(Long id, EventUpdateDTO dto) {
+        return eventRepository.findById(id).map(existingEvent -> {
+            if (dto.title != null) existingEvent.setTitle(dto.title);
+            if (dto.startDate != null) existingEvent.setStartDate(dto.startDate);
+            if (dto.endDate != null) existingEvent.setEndDate(dto.endDate);
+            if (dto.price != null) existingEvent.setPrice(dto.price);
+            if (dto.status != null) existingEvent.setStatus(dto.status);
+
+            if (existingEvent.getEndDate().isBefore(existingEvent.getStartDate()))
+                throw new IllegalArgumentException("endDate cannot be before startDate");
+
+            return eventRepository.save(existingEvent);
+        });
     }
 
     public boolean deleteEvent(Long id) {

@@ -2,11 +2,19 @@ package me.arturs.eventapi.controller;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+import me.arturs.eventapi.dto.EventUpdateDTO;
 import me.arturs.eventapi.entity.Event;
 import me.arturs.eventapi.service.EventService;
 
@@ -46,8 +54,8 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestBody Event updatedEvent) {
-        return eventService.updateEvent(id, updatedEvent)
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestBody EventUpdateDTO dto) {
+        return eventService.updateEvent(id, dto)
                 .map(event -> new ResponseEntity<>(event, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -56,6 +64,6 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         boolean deleted = eventService.deleteEvent(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                       : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
