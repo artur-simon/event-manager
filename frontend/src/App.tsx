@@ -147,8 +147,18 @@ export default function App() {
                 <td>{new Date(ev.endDate).toLocaleString()}</td>
                 <td>R$ {Number(ev.price).toFixed(2)}</td>
                 <td>
-                  <span className={ev.status === 'STARTED' ? 'status started' : 'status ended'}>
-                    {ev.status === 'STARTED' ? 'Iniciado' : 'Finalizado'}
+                  <span
+                    className={
+                      ev.status === 'STARTED' ? 'status started' :
+                        ev.status === 'COMPLETED' ? 'status completed' :
+                          'status paused'
+                    }
+                  >
+                    {ev.status === 'STARTED'
+                      ? 'Iniciado'
+                      : ev.status === 'COMPLETED'
+                        ? 'Finalizado'
+                        : 'Pausado'}
                   </span>
                 </td>
                 <td>
