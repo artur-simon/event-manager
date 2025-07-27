@@ -1,6 +1,6 @@
 /* Layout principal */
 .event-container {
-  max-width: 520px;
+  max-width: 920px;
   margin: 0 auto;
   background: #fff;
   border-radius: 22px;
@@ -30,6 +30,8 @@ h1 {
 }
 .form-row {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 1.1rem;
   margin-bottom: 1.1rem;
 }
@@ -41,6 +43,7 @@ h1 {
   border-radius: 9px;
   font-size: 1.08rem;
   background: #fff;
+  color: #808080;
   transition: border 0.2s, box-shadow 0.2s;
   box-shadow: 0 1px 4px #0001;
 }
