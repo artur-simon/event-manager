@@ -111,8 +111,11 @@ h1 {
 .status.started {
   background: #4caf50;
 }
-.status.ended {
+.status.completed {
   background: #f44336;
+}
+.status.paused {
+  background: #f47236;
 }
 .edit-btn, .delete-btn {
   border: none;
